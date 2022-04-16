@@ -30,6 +30,8 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -402,14 +404,14 @@ public class Base64Test {
 
     // encode/decode random arrays from size 0 to size 11
     @Test
-    public void testEncodeDecodeSmall() {
+    void testEncodeDecodeSmall() {
         for (int i = 0; i < 12; i++) {
             final byte[] data = new byte[i];
             this.getRandom().nextBytes(data);
             final byte[] enc = Base64.encodeBase64(data);
             assertTrue(Base64.isBase64(enc), "\"" + new String(enc) + "\" is Base64 data.");
             final byte[] data2 = Base64.decodeBase64(enc);
-            assertArrayEquals(data, data2, toString(data) + " equals " + toString(data2));
+            assertThat(data, is(data2));
         }
     }
 
