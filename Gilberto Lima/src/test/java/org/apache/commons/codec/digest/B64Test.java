@@ -18,6 +18,8 @@ package org.apache.commons.codec.digest;
 
 import org.junit.jupiter.api.Test;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -30,10 +32,10 @@ public class B64Test {
     }
 
     @Test
-    public void testB64from24bit() {
+    void testB64from24bit() {
         final StringBuilder buffer = new StringBuilder("");
         B64.b64from24bit((byte) 8, (byte) 16, (byte) 64, 2, buffer);
         B64.b64from24bit((byte) 7, (byte) 77, (byte) 120, 4, buffer);
-        assertEquals("./spo/", buffer.toString());
+        assertThat(buffer.toString(), is("./spo/"));
     }
 }

@@ -17,6 +17,7 @@
 
 package org.apache.commons.codec.binary;
 
+import java.util.Arrays;
 import org.apache.commons.codec.CodecPolicy;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.EncoderException;
@@ -27,6 +28,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -160,13 +163,13 @@ public class Base16Test {
 
     // encode/decode random arrays from size 0 to size 11
     @Test
-    public void testEncodeDecodeSmall() {
+    void testEncodeDecodeSmall() {
         for (int i = 0; i < 12; i++) {
             final byte[] data = new byte[i];
             this.getRandom().nextBytes(data);
             final byte[] enc = new Base16().encode(data);
             final byte[] data2 = new Base16().decode(enc);
-            assertArrayEquals(data, data2, toString(data) + " equals " + toString(data2));
+            assertThat(data, is(data2));
         }
     }
 
