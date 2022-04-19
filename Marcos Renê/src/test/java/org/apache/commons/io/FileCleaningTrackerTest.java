@@ -43,6 +43,10 @@ import org.junit.jupiter.api.Test;
  *
  * @see FileCleaningTracker
  */
+
+static final int expectedInstanceTrackCountZero = 0;
+static final int expectedInstanceTrackCountOne = 1;
+
 public class FileCleaningTrackerTest extends AbstractTempDirTest {
 
     private File testFile;
@@ -108,15 +112,15 @@ public class FileCleaningTrackerTest extends AbstractTempDirTest {
         assertTrue(tempDirFile.exists());
 
         Object obj = new Object();
-        assertEquals(0, theInstance.getTrackCount());
+        assertEquals(expectedInstanceTrackCountZero, theInstance.getTrackCount());
         theInstance.track(tempDirFile, obj);
-        assertEquals(1, theInstance.getTrackCount());
+        assertEquals(expectedInstanceTrackCountOne, theInstance.getTrackCount());
 
         obj = null;
 
         waitUntilTrackCount();
 
-        assertEquals(0, theInstance.getTrackCount());
+        assertEquals(expectedInstanceTrackCountZero, theInstance.getTrackCount());
         assertTrue(testFile.exists());  // not deleted, as dir not empty
         assertTrue(testFile.getParentFile().exists());  // not deleted, as dir not empty
     }
@@ -135,9 +139,9 @@ public class FileCleaningTrackerTest extends AbstractTempDirTest {
         assertTrue(tempDirFile.exists());
 
         Object obj = new Object();
-        assertEquals(0, theInstance.getTrackCount());
+        assertEquals(expectedInstanceTrackCountZero, theInstance.getTrackCount());
         theInstance.track(tempDirFile, obj, FileDeleteStrategy.FORCE);
-        assertEquals(1, theInstance.getTrackCount());
+        assertEquals(expectedInstanceTrackCountOne, theInstance.getTrackCount());
 
         obj = null;
 
