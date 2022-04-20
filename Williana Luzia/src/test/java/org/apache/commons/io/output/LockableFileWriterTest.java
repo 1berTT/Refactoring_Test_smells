@@ -80,7 +80,10 @@ public class LockableFileWriterTest {
         assertThrows(IOException.class, () -> new LockableFileWriter(temporaryFolder));
         assertFalse(file.exists());
         assertFalse(lockFile.exists());
-        // again
+    }
+	
+	@Test
+	public void testFile_exists() {
         assertFalse(file.exists());
         assertFalse(lockFile.exists());
     }
@@ -90,9 +93,6 @@ public class LockableFileWriterTest {
         assertThrows(UnsupportedCharsetException.class, () -> new LockableFileWriter(file, "BAD-ENCODE"));
         assertFalse(file.exists());
         assertFalse(lockFile.exists());
-        // again
-        assertFalse(file.exists());
-        assertFalse(lockFile.exists());
     }
 
     @Test
@@ -100,17 +100,11 @@ public class LockableFileWriterTest {
         assertThrows(NullPointerException.class, () -> new LockableFileWriter((File) null));
         assertFalse(file.exists());
         assertFalse(lockFile.exists());
-        // again
-        assertFalse(file.exists());
-        assertFalse(lockFile.exists());
     }
 
     @Test
     public void testConstructor_fileName_nullFile() throws IOException {
         assertThrows(NullPointerException.class, () -> new LockableFileWriter((String) null));
-        assertFalse(file.exists());
-        assertFalse(lockFile.exists());
-        // again
         assertFalse(file.exists());
         assertFalse(lockFile.exists());
     }
