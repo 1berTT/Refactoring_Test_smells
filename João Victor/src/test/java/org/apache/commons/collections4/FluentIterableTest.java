@@ -108,14 +108,21 @@ public class FluentIterableTest {
     // -----------------------------------------------------------------------
     @Test
     public void factoryMethodOf() {
+        
+        int elemento1 = 1;
+        int elemento2 = 2;
+        int elemento3 = 3;
+        int elemento4 = 4;
+        int elemento5 = 5;
+        
         FluentIterable<Integer> iterable = FluentIterable.of(1, 2, 3, 4, 5);
         List<Integer> result = iterable.toList();
-        assertEquals(Arrays.asList(1, 2, 3, 4, 5), result);
-
-        iterable = FluentIterable.of(1);
-        assertEquals(1, iterable.size());
+        assertEquals(Arrays.asList(elemento1, elemento2, elemento3, elemento4, elemento5), result);
+        int tamanho = 1;    
+        iterable = FluentIterable.of();
+        assertEquals(tamanho, iterable.size());
         assertFalse(iterable.isEmpty());
-        assertEquals(Arrays.asList(1), iterable.toList());
+        assertEquals(Arrays.asList(tamanho), iterable.toList());
 
         result = FluentIterable.of(new Integer[0]).toList();
         assertTrue(result.isEmpty());
@@ -127,9 +134,13 @@ public class FluentIterableTest {
 
     @Test
     public void appendElements() {
+        
+        int incremento = 3;
+        int positionList = 1;
+        
         final FluentIterable<Integer> it = FluentIterable.of(iterableA).append(10, 20, 30);
-        assertEquals(IterableUtils.size(iterableA) + 3, IterableUtils.size(it));
-        assertTrue(IterableUtils.contains(it, 1));
+        assertEquals(IterableUtils.size(iterableA) + incremento, IterableUtils.size(it));
+        assertTrue(IterableUtils.contains(it, positionList));
         assertTrue(IterableUtils.contains(it, 10));
         assertTrue(IterableUtils.contains(it, 20));
         assertTrue(IterableUtils.contains(it, 30));
