@@ -44,7 +44,7 @@ public class DirectoryStreamFilterTest {
         try (final DirectoryStream<Path> stream = Files.newDirectoryStream(PathUtils.current(), streamFilter)) {
             final Iterator<Path> iterator = stream.iterator();
             final Path path = iterator.next();
-            assertEquals(PATH_FIXTURE, path.getFileName().toString());
+            assertEquals(path.resolveSibling(PATH_FIXTURE), path.getFileName());
             assertFalse(iterator.hasNext());
         }
     }

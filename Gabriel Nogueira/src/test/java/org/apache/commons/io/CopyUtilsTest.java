@@ -18,6 +18,7 @@ package org.apache.commons.io;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -102,7 +103,11 @@ public class CopyUtilsTest {
         final String charsetName = "UTF-8";
         final StringWriter writer = new StringWriter();
         CopyUtils.copy(new StringInputStream(inDataStr, charsetName), writer, charsetName);
-        assertEquals(inDataStr, writer.toString());
+
+        final StringWriter compara = new StringWriter();
+        compara.write(inDataStr);
+
+        assertTrue(compara.equals(writer));
     }
 
     @SuppressWarnings("resource") // 'in' is deliberately not closed
@@ -131,11 +136,11 @@ public class CopyUtilsTest {
         final OutputStream out = new ThrowOnFlushAndCloseOutputStream(baout, false, true);
 
         CopyUtils.copy(str, out);
-        //Note: this method *does* flush. It is equivalent to:
-        //  OutputStreamWriter _out = new OutputStreamWriter(fout);
-        //  IOUtils.copy( str, _out, 4096 ); // copy( Reader, Writer, int );
-        //  _out.flush();
-        //  out = fout;
+        // Note: this method *does* flush. It is equivalent to:
+        // OutputStreamWriter _out = new OutputStreamWriter(fout);
+        // IOUtils.copy( str, _out, 4096 ); // copy( Reader, Writer, int );
+        // _out.flush();
+        // out = fout;
         // note: we don't flush here; this IOUtils method does it for us
 
         assertEquals(inData.length, baout.size(), "Sizes differ");
@@ -163,7 +168,10 @@ public class CopyUtilsTest {
         final String charsetName = "UTF-8";
         final StringWriter writer = new StringWriter();
         CopyUtils.copy(inDataStr.getBytes(charsetName), writer, charsetName);
-        assertEquals(inDataStr, writer.toString());
+
+        StringWriter compara = new StringWriter();
+        compara.write(inDataStr);
+        assertTrue(compara.equals(writer));
     }
 
     @SuppressWarnings("resource") // 'in' is deliberately not closed
@@ -194,11 +202,11 @@ public class CopyUtilsTest {
         final OutputStream out = new ThrowOnFlushAndCloseOutputStream(baout, false, true);
 
         CopyUtils.copy(reader, out);
-        //Note: this method *does* flush. It is equivalent to:
-        //  OutputStreamWriter _out = new OutputStreamWriter(fout);
-        //  IOUtils.copy( fin, _out, 4096 ); // copy( Reader, Writer, int );
-        //  _out.flush();
-        //  out = fout;
+        // Note: this method *does* flush. It is equivalent to:
+        // OutputStreamWriter _out = new OutputStreamWriter(fout);
+        // IOUtils.copy( fin, _out, 4096 ); // copy( Reader, Writer, int );
+        // _out.flush();
+        // out = fout;
 
         // Note: rely on the method to flush
         assertEquals(inData.length, baout.size(), "Sizes differ");

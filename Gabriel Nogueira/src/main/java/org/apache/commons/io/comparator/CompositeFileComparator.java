@@ -30,6 +30,7 @@ import java.util.List;
  * <p>
  * Example of sorting a list of files by type (i.e. directory or file)
  * and then by name:
+ * 
  * <pre>
  *       CompositeFileComparator comparator =
  *                       new CompositeFileComparator(
@@ -56,9 +57,9 @@ public class CompositeFileComparator extends AbstractFileComparator implements S
     @SuppressWarnings("unchecked") // casts 1 & 2 must be OK because types are already correct
     public CompositeFileComparator(final Comparator<File>... delegates) {
         if (delegates == null) {
-            this.delegates = (Comparator<File>[]) EMPTY_COMPARATOR_ARRAY;//1
+            this.delegates = (Comparator<File>[]) EMPTY_COMPARATOR_ARRAY;// 1
         } else {
-            this.delegates = delegates.clone();//2
+            this.delegates = delegates.clone();// 2
         }
     }
 
@@ -70,13 +71,13 @@ public class CompositeFileComparator extends AbstractFileComparator implements S
     @SuppressWarnings("unchecked") // casts 1 & 2 must be OK because types are already correct
     public CompositeFileComparator(final Iterable<Comparator<File>> delegates) {
         if (delegates == null) {
-            this.delegates = (Comparator<File>[]) EMPTY_COMPARATOR_ARRAY; //1
+            this.delegates = (Comparator<File>[]) EMPTY_COMPARATOR_ARRAY; // 1
         } else {
             final List<Comparator<File>> list = new ArrayList<>();
             for (final Comparator<File> comparator : delegates) {
                 list.add(comparator);
             }
-            this.delegates = (Comparator<File>[]) list.toArray(EMPTY_COMPARATOR_ARRAY); //2
+            this.delegates = (Comparator<File>[]) list.toArray(EMPTY_COMPARATOR_ARRAY); // 2
         }
     }
 
@@ -86,7 +87,7 @@ public class CompositeFileComparator extends AbstractFileComparator implements S
      * @param file1 The first file to compare
      * @param file2 The second file to compare
      * @return the first non-zero result returned from
-     * the delegate comparators or zero.
+     *         the delegate comparators or zero.
      */
     @Override
     public int compare(final File file1, final File file2) {
