@@ -52,16 +52,16 @@ public class TransformedBagTest<T> extends AbstractBagTest<T> {
         //T had better be Object!
         final Bag<T> bag = TransformedBag.transformingBag(new HashBag<T>(),
                 (Transformer<T, T>) TransformedCollectionTest.STRING_TO_INTEGER_TRANSFORMER);
-        assertTrue(bag.isEmpty());
+        assertTrue("Verify object 'bag' is empty.",bag.isEmpty());
         final Object[] els = {"1", "3", "5", "7", "2", "4", "6"};
         for (int i = 0; i < els.length; i++) {
             bag.add((T) els[i]);
-            assertEquals(i + 1, bag.size());
-            assertTrue(bag.contains(Integer.valueOf((String) els[i])));
-            assertFalse(bag.contains(els[i]));
+            assertEquals("Verify index + 1 equals size of bag.",i + 1, bag.size());
+            assertTrue("Verify exists is an element in position 'i' with type string.",bag.contains(Integer.valueOf((String) els[i])));
+            assertFalse("Verify if not exists element in position 'i' in object 'bag'",bag.contains(els[i]));
         }
 
-        assertFalse(bag.remove(els[0]));
+        assertFalse("Verify if elements in postion '0' has not been removed",bag.remove(els[0]));
         assertTrue(bag.remove(Integer.valueOf((String) els[0])));
     }
 
