@@ -41,10 +41,11 @@ public class CompositeFileComparatorTest extends ComparatorAbstractTest {
      */
     @Test
     public void constructorArray_Null() {
-        final Comparator<File> c = new CompositeFileComparator((Comparator<File>[])null);
+        final Comparator<File> c = new CompositeFileComparator((Comparator<File>[]) null);
         assertEquals(0, c.compare(lessFile, moreFile), "less,more");
         assertEquals(0, c.compare(moreFile, lessFile), "more,less");
-        assertEquals("CompositeFileComparator{}", c.toString(), "toString");
+
+        assertEquals(new CompositeFileComparator((Comparator<File>[]) null), c, "toString");
     }
 
     /**
@@ -52,10 +53,10 @@ public class CompositeFileComparatorTest extends ComparatorAbstractTest {
      */
     @Test
     public void constructorIterable_Null() {
-        final Comparator<File> c = new CompositeFileComparator((Iterable<Comparator<File>>)null);
+        final Comparator<File> c = new CompositeFileComparator((Iterable<Comparator<File>>) null);
         assertEquals(0, c.compare(lessFile, moreFile), "less,more");
         assertEquals(0, c.compare(moreFile, lessFile), "more,less");
-        assertEquals("CompositeFileComparator{}", c.toString(), "toString");
+        assertEquals(new CompositeFileComparator((Iterable<Comparator<File>>) null), c, "toString");
     }
 
     /**
@@ -75,43 +76,42 @@ public class CompositeFileComparatorTest extends ComparatorAbstractTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        comparator = new CompositeFileComparator(SizeFileComparator.SIZE_COMPARATOR, ExtensionFileComparator.EXTENSION_COMPARATOR);
+        comparator = new CompositeFileComparator(SizeFileComparator.SIZE_COMPARATOR,
+                ExtensionFileComparator.EXTENSION_COMPARATOR);
         reverse = new ReverseFileComparator(comparator);
-        lessFile   = new File(dir, "xyz.txt");
+        lessFile = new File(dir, "xyz.txt");
         equalFile1 = new File(dir, "foo.txt");
         equalFile2 = new File(dir, "bar.txt");
-        moreFile   = new File(dir, "foo.xyz");
+        moreFile = new File(dir, "foo.xyz");
         if (!lessFile.getParentFile().exists()) {
             throw new IOException("Cannot create file " + lessFile
                     + " as the parent directory does not exist");
         }
 
-        try (final BufferedOutputStream output3 =
-                new BufferedOutputStream(Files.newOutputStream(lessFile.toPath()))) {
+        try (final BufferedOutputStream output3 = new BufferedOutputStream(Files.newOutputStream(lessFile.toPath()))) {
             TestUtils.generateTestData(output3, 32);
         }
         if (!equalFile1.getParentFile().exists()) {
             throw new IOException("Cannot create file " + equalFile1
                     + " as the parent directory does not exist");
         }
-        try (final BufferedOutputStream output2 =
-                new BufferedOutputStream(Files.newOutputStream(equalFile1.toPath()))) {
+        try (final BufferedOutputStream output2 = new BufferedOutputStream(
+                Files.newOutputStream(equalFile1.toPath()))) {
             TestUtils.generateTestData(output2, 48);
         }
         if (!equalFile2.getParentFile().exists()) {
             throw new IOException("Cannot create file " + equalFile2
                     + " as the parent directory does not exist");
         }
-        try (final BufferedOutputStream output1 =
-                new BufferedOutputStream(Files.newOutputStream(equalFile2.toPath()))) {
+        try (final BufferedOutputStream output1 = new BufferedOutputStream(
+                Files.newOutputStream(equalFile2.toPath()))) {
             TestUtils.generateTestData(output1, 48);
         }
         if (!moreFile.getParentFile().exists()) {
             throw new IOException("Cannot create file " + moreFile
                     + " as the parent directory does not exist");
         }
-        try (final BufferedOutputStream output =
-                new BufferedOutputStream(Files.newOutputStream(moreFile.toPath()))) {
+        try (final BufferedOutputStream output = new BufferedOutputStream(Files.newOutputStream(moreFile.toPath()))) {
             TestUtils.generateTestData(output, 48);
         }
     }
