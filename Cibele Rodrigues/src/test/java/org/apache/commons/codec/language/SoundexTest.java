@@ -91,13 +91,20 @@ public class SoundexTest extends StringEncoderAbstractTest<Soundex> {
 
     @Test
     public void testDifference() throws EncoderException {
+        
+        int difNulo = 0;
+        int difVazio = 0;
+        int difEspaco = 0;
+        int difLetrasQuatro = 4;
+        int difLetrasDois = 2;
+        
         // Edge cases
-        assertEquals(0, this.getStringEncoder().difference(null, null));
-        assertEquals(0, this.getStringEncoder().difference("", ""));
-        assertEquals(0, this.getStringEncoder().difference(" ", " "));
+        assertEquals(difNulo, this.getStringEncoder().difference(null, null));
+        assertEquals(difVazio, this.getStringEncoder().difference("", ""));
+        assertEquals(difEspaco, this.getStringEncoder().difference(" ", " "));
         // Normal cases
-        assertEquals(4, this.getStringEncoder().difference("Smith", "Smythe"));
-        assertEquals(2, this.getStringEncoder().difference("Ann", "Andrew"));
+        assertEquals(difLetrasQuatro, this.getStringEncoder().difference("Smith", "Smythe"));
+        assertEquals(difLetrasDois, this.getStringEncoder().difference("Ann", "Andrew"));
         assertEquals(1, this.getStringEncoder().difference("Margaret", "Andrew"));
         assertEquals(0, this.getStringEncoder().difference("Janet", "Margaret"));
         // Examples from http://msdn.microsoft.com/library/default.asp?url=/library/en-us/tsqlref/ts_de-dz_8co5.asp
