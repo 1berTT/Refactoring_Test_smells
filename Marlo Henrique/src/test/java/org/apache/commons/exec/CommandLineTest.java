@@ -366,26 +366,58 @@ public class CommandLineTest {
         assertTrue(cmdl.getExecutable().indexOf("${JAVA_HOME}") == 0 );
         assertArrayEquals(new String[]{"${appMainClass}"}, cmdl.getArguments());
 
+        // pass an complete substitution map
+        cmdl = CommandLine.parse("${JAVA_HOME}/bin/java ${appMainClass}", substitutionMap);
+        assertTrue(cmdl.getExecutable().indexOf("${JAVA_HOME}") < 0 );//2
+        assertTrue(cmdl.getExecutable().indexOf("local") > 0 );
+        assertArrayEquals(new String[]{"foo.bar.Main"}, cmdl.getArguments());
+
+        // pass a file
+        cmdl = CommandLine.parse("${JAVA_HOME}/bin/java ${appMainClass} ${file1} ${file2}", substitutionMap);
+        assertTrue(cmdl.getExecutable().indexOf("${file}") < 0 );
+    }
+
+    @Test
+    public void testCommandLinePassArgumentsWithEmptyMap(){
+        CommandLine cmdl;
+
+        final HashMap<String, Object> substitutionMap =
+            new HashMap<>();
+        substitutionMap.put("JAVA_HOME", "/usr/local/java");
+        substitutionMap.put("appMainClass", "foo.bar.Main");
+        substitutionMap.put("file1", new File("./pom.xml"));
+        substitutionMap.put("file2", new File(".\\temp\\READ ME.txt"));
+
+        final HashMap<String, String> incompleteMap =
+            new HashMap<>();
+        incompleteMap.put("JAVA_HOME", "/usr/local/java");
+
         // pass arguments with an empty map
         cmdl = CommandLine.parse("${JAVA_HOME}/bin/java ${appMainClass}", new HashMap<String, Object>());
         assertTrue(cmdl.getExecutable().indexOf("${JAVA_HOME}") == 0 );
         assertArrayEquals(new String[]{"${appMainClass}"}, cmdl.getArguments());
+    }
 
-        // pass an complete substitution map
-        cmdl = CommandLine.parse("${JAVA_HOME}/bin/java ${appMainClass}", substitutionMap);
-        assertTrue(cmdl.getExecutable().indexOf("${JAVA_HOME}") < 0 );
-        assertTrue(cmdl.getExecutable().indexOf("local") > 0 );
-        assertArrayEquals(new String[]{"foo.bar.Main"}, cmdl.getArguments());
+    @Test
+    public void testCommandLinePassIncompleteSubstitutionMapResulting(){
+        CommandLine cmdl;
+
+        final HashMap<String, Object> substitutionMap =
+            new HashMap<>();
+        substitutionMap.put("JAVA_HOME", "/usr/local/java");
+        substitutionMap.put("appMainClass", "foo.bar.Main");
+        substitutionMap.put("file1", new File("./pom.xml"));
+        substitutionMap.put("file2", new File(".\\temp\\READ ME.txt"));
+
+        final HashMap<String, String> incompleteMap =
+            new HashMap<>();
+        incompleteMap.put("JAVA_HOME", "/usr/local/java");
 
         // pass an incomplete substitution map resulting in unresolved variables
         cmdl = CommandLine.parse("${JAVA_HOME}/bin/java ${appMainClass}", incompleteMap);
         assertTrue(cmdl.getExecutable().indexOf("${JAVA_HOME}") < 0 );
         assertTrue(cmdl.getExecutable().indexOf("local") > 0 );
         assertArrayEquals(new String[]{"${appMainClass}"}, cmdl.getArguments());
-
-        // pass a file
-        cmdl = CommandLine.parse("${JAVA_HOME}/bin/java ${appMainClass} ${file1} ${file2}", substitutionMap);
-        assertTrue(cmdl.getExecutable().indexOf("${file}") < 0 );
     }
 
     /**
@@ -432,6 +464,29 @@ public class CommandLineTest {
         assertEquals("-class", arguments[0]);
         assertEquals("foo.bar.Main", arguments[1]);
         assertEquals("\"C:\\Document And Settings\\documents\\432431.pdf\"", arguments[2]);
+    }
+
+    @Test
+    public void testSecondCommandLineResultingDifferentCommandLine(){
+        CommandLine cmdl;
+        String[] result;
+
+        // build the user supplied parameters
+        final HashMap<String, String> substitutionMap =
+            new HashMap<>();
+        substitutionMap.put("JAVA_HOME", "C:\\Programme\\jdk1.5.0_12");
+        substitutionMap.put("appMainClass", "foo.bar.Main");
+
+        // build the command line
+        cmdl = new CommandLine("${JAVA_HOME}\\bin\\java");
+        cmdl.addArgument("-class");
+        cmdl.addArgument("${appMainClass}");
+        cmdl.addArgument("${file}");
+
+        // build the first command line
+        substitutionMap.put("file", "C:\\Document And Settings\\documents\\432431.pdf");
+        cmdl.setSubstitutionMap(substitutionMap);
+        result = cmdl.toStrings();
 
         // build the second command line with updated parameters resulting in  a different command line
         substitutionMap.put("file", "C:\\Document And Settings\\documents\\432432.pdf");
@@ -440,7 +495,7 @@ public class CommandLineTest {
         assertEquals("-class", result[1]);
         assertEquals("foo.bar.Main", result[2]);
         assertEquals("\"C:\\Document And Settings\\documents\\432432.pdf\"", result[3]);
-    }
+    }   
 
     @Test
     public void testCommandLineParsingWithExpansion3() {

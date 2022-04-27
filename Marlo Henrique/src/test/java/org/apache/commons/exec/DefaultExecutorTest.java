@@ -474,13 +474,20 @@ public class DefaultExecutorTest {
 
       assertTrue(processDestroyer.isEmpty());
       assertTrue(processDestroyer.isAddedAsShutdownHook() == false);
+    }
 
-      final int exitValue = exec.execute(cl);
+    @Test
+    public void testExecuteWithProcessDestroyerExitValue() throws Exception{
+        final CommandLine cl = new CommandLine(testScript);
+        final ShutdownHookProcessDestroyer processDestroyer = new ShutdownHookProcessDestroyer();
+        exec.setProcessDestroyer(processDestroyer);
 
-      assertEquals("FOO..", baos.toString().trim());
-      assertFalse(exec.isFailure(exitValue));
-      assertTrue(processDestroyer.isEmpty());
-      assertTrue(processDestroyer.isAddedAsShutdownHook() == false);
+        final int exitValue = exec.execute(cl);
+
+        assertEquals("FOO..", baos.toString().trim());
+        assertFalse(exec.isFailure(exitValue));
+        assertTrue(processDestroyer.isEmpty());
+        assertTrue(processDestroyer.isAddedAsShutdownHook() == false);
     }
 
     /**
