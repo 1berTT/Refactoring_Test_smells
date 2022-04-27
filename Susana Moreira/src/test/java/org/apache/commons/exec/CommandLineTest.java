@@ -38,10 +38,10 @@ public class CommandLineTest {
     @Test
     public void testExecutable() {
         final CommandLine cmdl = new CommandLine("test");
-        assertEquals("[test]", cmdl.toString());
-        assertArrayEquals(new String[]{"test"}, cmdl.toStrings());
-        assertEquals("test", cmdl.getExecutable());
-        assertTrue(cmdl.getArguments().length == 0);
+        assertEquals("Verificando que a variável cmdl possui valor 'test'", "[test]", cmdl.toString());
+        assertArrayEquals("Verificando que a variável cmdl possui os mesmos caracteres de comparação 'test'",new String[]{"test"}, cmdl.toStrings());
+        assertEquals("Comparando que a saída do método getExecutable possui valor 'test'","test", cmdl.getExecutable());
+        assertTrue("Verificando que a quantidade de argumentos é igual a 0",cmdl.getArguments().length == 0);
     }
 
     @Test
@@ -80,7 +80,7 @@ public class CommandLineTest {
 
         cmdl.addArgument("foo");
         cmdl.addArgument("bar");
-        assertEquals("[test, foo, bar]", cmdl.toString());
+        assertEquals("Verificando que o array cmdl possui os mesmos valores adicionados [test, foo, bar]","[test, foo, bar]", cmdl.toString());
         assertArrayEquals(new String[]{"test", "foo", "bar"}, cmdl.toStrings());
     }
 
