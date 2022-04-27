@@ -49,11 +49,11 @@ public class ByteOrderMarkTest  {
     /** Tests that {@link ByteOrderMark#getCharsetName()} can be loaded as a {@link java.nio.charset.Charset} as advertised. */
     @Test
     public void constantCharsetNames() {
-        assertNotNull(Charset.forName(ByteOrderMark.UTF_8.getCharsetName()));
-        assertNotNull(Charset.forName(ByteOrderMark.UTF_16BE.getCharsetName()));
-        assertNotNull(Charset.forName(ByteOrderMark.UTF_16LE.getCharsetName()));
-        assertNotNull(Charset.forName(ByteOrderMark.UTF_32BE.getCharsetName()));
-        assertNotNull(Charset.forName(ByteOrderMark.UTF_32LE.getCharsetName()));
+        assertNotNull("testando se o nome do conjunto de caracteres UTF8 é uma acertiva nula",Charset.forName(ByteOrderMark.UTF_8.getCharsetName()));
+        assertNotNull("testando se o nome do conjunto de caracteres UTF16 é uma acertiva nula",Charset.forName(ByteOrderMark.UTF_16BE.getCharsetName()));
+        assertNotNull("testando se o nome do conjunto de caracteres UTF16 é uma acertiva nula",Charset.forName(ByteOrderMark.UTF_16LE.getCharsetName()));
+        assertNotNull("testando se o nome do conjunto de caracteres UTF32 é uma acertiva nula",Charset.forName(ByteOrderMark.UTF_32BE.getCharsetName()));
+        assertNotNull("testando se o nome do conjunto de caracteres UTF32 é uma acertiva nula",Charset.forName(ByteOrderMark.UTF_32LE.getCharsetName()));
     }
 
     /** Test Errors */
