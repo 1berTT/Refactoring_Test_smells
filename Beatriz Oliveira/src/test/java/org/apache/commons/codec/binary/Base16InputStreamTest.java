@@ -46,12 +46,12 @@ public class Base16InputStreamTest {
     public void testAvailable() throws IOException {
         final InputStream ins = new ByteArrayInputStream(StringUtils.getBytesIso8859_1(ENCODED_B16));
         try (final Base16InputStream b16Stream = new Base16InputStream(ins)) {
-            assertEquals(1, b16Stream.available());
-            assertEquals(6, b16Stream.skip(10));
+            assertEquals("Comparação entre 1 e b16Stream.available",1, b16Stream.available());
+            assertEquals("Comparação entre 6 e b16Stream.skip",6, b16Stream.skip(10));
             // End of stream reached
-            assertEquals(0, b16Stream.available());
-            assertEquals(-1, b16Stream.read());
-            assertEquals(-1, b16Stream.read());
+            assertEquals("Comparação entre 0 e b16Stream.available",0, b16Stream.available());
+            assertEquals("Comparação entre -1 e b16Stream.read",-1, b16Stream.read());
+            assertEquals("Comparação entre -1 e b16Stream.read",-1, b16Stream.read());
             assertEquals(0, b16Stream.available());
         }
     }
