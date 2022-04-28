@@ -137,6 +137,12 @@ public class MessageDigestAlgorithmsTest {
         assumeTrue(DigestUtils.isAvailable(messageDigestAlgorithm));
         assertArrayEquals(digestTestData(messageDigestAlgorithm),
                 DigestUtils.digest(DigestUtils.getDigest(messageDigestAlgorithm), getTestData()));
+    }
+    
+    @ParameterizedTest
+    @MethodSource("data")
+    public void testDigestByteArray_2(String messageDigestAlgorithm) {
+        assumeTrue(DigestUtils.isAvailable(messageDigestAlgorithm));
         assertArrayEquals(digestTestData(messageDigestAlgorithm), DigestUtils.digest(DigestUtils.getDigest(messageDigestAlgorithm),getTestData()));
     }
 
@@ -146,6 +152,12 @@ public class MessageDigestAlgorithmsTest {
         assumeTrue(DigestUtils.isAvailable(messageDigestAlgorithm));
         assertArrayEquals(digestTestData(messageDigestAlgorithm),
                 DigestUtils.digest(DigestUtils.getDigest(messageDigestAlgorithm), ByteBuffer.wrap(getTestData())));
+    }
+    
+    @ParameterizedTest
+    @MethodSource("data")
+    public void testDigestByteBuffer_2(String messageDigestAlgorithm) {
+        assumeTrue(DigestUtils.isAvailable(messageDigestAlgorithm));
         assertArrayEquals(digestTestData(messageDigestAlgorithm), DigestUtils.digest(DigestUtils.getDigest(messageDigestAlgorithm),ByteBuffer.wrap(getTestData())));
     }
 
@@ -155,6 +167,12 @@ public class MessageDigestAlgorithmsTest {
         assumeTrue(DigestUtils.isAvailable(messageDigestAlgorithm));
         assertArrayEquals(digestTestData(messageDigestAlgorithm),
             DigestUtils.digest(DigestUtils.getDigest(messageDigestAlgorithm), getTestFile()));
+    }
+    
+    @ParameterizedTest
+    @MethodSource("data")
+    public void testDigestFile_2(String messageDigestAlgorithm) throws IOException {
+        assumeTrue(DigestUtils.isAvailable(messageDigestAlgorithm));
         assertArrayEquals(digestTestData(messageDigestAlgorithm),
             DigestUtils.digest(DigestUtils.getDigest(messageDigestAlgorithm), getTestFile()));
     }
@@ -165,6 +183,12 @@ public class MessageDigestAlgorithmsTest {
         assumeTrue(DigestUtils.isAvailable(messageDigestAlgorithm));
         assertArrayEquals(digestTestData(messageDigestAlgorithm),
                 DigestUtils.digest(DigestUtils.getDigest(messageDigestAlgorithm), new ByteArrayInputStream(getTestData())));
+    }
+    
+    @ParameterizedTest
+    @MethodSource("data")
+    public void testDigestInputStream_2(String messageDigestAlgorithm) throws IOException {
+        assumeTrue(DigestUtils.isAvailable(messageDigestAlgorithm));
         assertArrayEquals(digestTestData(messageDigestAlgorithm), DigestUtils.digest(DigestUtils.getDigest(messageDigestAlgorithm),new ByteArrayInputStream(getTestData())));
     }
 
