@@ -47,12 +47,25 @@ public class Base16InputStreamTest {
         final InputStream ins = new ByteArrayInputStream(StringUtils.getBytesIso8859_1(ENCODED_B16));
         try (final Base16InputStream b16Stream = new Base16InputStream(ins)) {
             assertEquals(1, b16Stream.available());
+            assertEquals(0, b16Stream.available());
+            assertEquals(0, b16Stream.available());
+        }
+    }
+
+    @Test
+    public void testRead() throws IOException {
+        final InputStream ins = new ByteArrayInputStream(StringUtils.getBytesIso8859_1(ENCODED_B16));
+        try (final Base16InputStream b16Stream = new Base16InputStream(ins)) {
+            assertEquals(-1, b16Stream.read());
+            assertEquals(-1, b16Stream.read());
+        }
+    }
+
+    @Test
+    public void testSkip() throws IOException {
+        final InputStream ins = new ByteArrayInputStream(StringUtils.getBytesIso8859_1(ENCODED_B16));
+        try (final Base16InputStream b16Stream = new Base16InputStream(ins)) {
             assertEquals(6, b16Stream.skip(10));
-            // End of stream reached
-            assertEquals(0, b16Stream.available());
-            assertEquals(-1, b16Stream.read());
-            assertEquals(-1, b16Stream.read());
-            assertEquals(0, b16Stream.available());
         }
     }
 
@@ -315,15 +328,43 @@ public class Base16InputStreamTest {
      *
      * @throws IOException for some failure scenarios.
      */
+
     @Test
-    public void testReadOutOfBounds() throws IOException {
+    public void testReadOutOfBoundsOne() throws IOException {
         final byte[] decoded = StringUtils.getBytesUtf8(STRING_FIXTURE);
         final byte[] buf = new byte[1024];
         final ByteArrayInputStream bin = new ByteArrayInputStream(decoded);
         try (final Base16InputStream in = new Base16InputStream(bin, true)) {
             assertThrows(IndexOutOfBoundsException.class, () -> in.read(buf, -1, 0), "Base16InputStream.read(buf, -1, 0)");
+        }
+    }
+
+    @Test
+    public void testReadOutOfBoundsTwo() throws IOException {
+        final byte[] decoded = StringUtils.getBytesUtf8(STRING_FIXTURE);
+        final byte[] buf = new byte[1024];
+        final ByteArrayInputStream bin = new ByteArrayInputStream(decoded);
+        try (final Base16InputStream in = new Base16InputStream(bin, true)) {
             assertThrows(IndexOutOfBoundsException.class, () -> in.read(buf, 0, -1), "Base16InputStream.read(buf, 0, -1)");
+        }
+    }
+
+    @Test
+    public void testReadOutOfBoundsThree() throws IOException {
+        final byte[] decoded = StringUtils.getBytesUtf8(STRING_FIXTURE);
+        final byte[] buf = new byte[1024];
+        final ByteArrayInputStream bin = new ByteArrayInputStream(decoded);
+        try (final Base16InputStream in = new Base16InputStream(bin, true)) {
             assertThrows(IndexOutOfBoundsException.class, () -> in.read(buf, buf.length + 1, 0), "Base16InputStream.read(buf, buf.length + 1, 0)");
+        }
+    }
+
+    @Test
+    public void testReadOutOfBoundsFour() throws IOException {
+        final byte[] decoded = StringUtils.getBytesUtf8(STRING_FIXTURE);
+        final byte[] buf = new byte[1024];
+        final ByteArrayInputStream bin = new ByteArrayInputStream(decoded);
+        try (final Base16InputStream in = new Base16InputStream(bin, true)) {
             assertThrows(IndexOutOfBoundsException.class, () -> in.read(buf, buf.length - 1, 2), "Base16InputStream.read(buf, buf.length - 1, 2)");
         }
     }
@@ -334,11 +375,17 @@ public class Base16InputStreamTest {
      * @throws IOException for some failure scenarios.
      */
     @Test
-    public void testSkipBig() throws IOException {
+    public void testSkipBigSkip() throws IOException {
         final InputStream ins = new ByteArrayInputStream(StringUtils.getBytesIso8859_1(ENCODED_B16));
         try (final Base16InputStream b16Stream = new Base16InputStream(ins)) {
             assertEquals(6, b16Stream.skip(Integer.MAX_VALUE));
-            // End of stream reached
+        }
+    }
+
+    @Test
+    public void testSkipBigRead() throws IOException {
+        final InputStream ins = new ByteArrayInputStream(StringUtils.getBytesIso8859_1(ENCODED_B16));
+        try (final Base16InputStream b16Stream = new Base16InputStream(ins)) {
             assertEquals(-1, b16Stream.read());
             assertEquals(-1, b16Stream.read());
         }
@@ -350,14 +397,28 @@ public class Base16InputStreamTest {
      * @throws IOException for some failure scenarios.
      */
     @Test
-    public void testSkipNone() throws IOException {
+    public void testSkipNone_Skip() throws IOException {
+        final InputStream ins = new ByteArrayInputStream(StringUtils.getBytesIso8859_1(ENCODED_B16));
+        try (final Base16InputStream b16Stream = new Base16InputStream(ins)) {
+            assertEquals(0, b16Stream.skip(0));
+        }
+    }
+
+    @Test
+    public void testSkipNone_ArrayEquals() throws IOException {
         final InputStream ins = new ByteArrayInputStream(StringUtils.getBytesIso8859_1(ENCODED_B16));
         try (final Base16InputStream b16Stream = new Base16InputStream(ins)) {
             final byte[] actualBytes = new byte[6];
-            assertEquals(0, b16Stream.skip(0));
             b16Stream.read(actualBytes, 0, actualBytes.length);
             assertArrayEquals(actualBytes, new byte[] {(byte)202, (byte)254, (byte)186, (byte)190, (byte)255, (byte)255});
-            // End of stream reached
+        }
+    }
+
+    @Test
+    public void testSkipNone_Read() throws IOException {
+        final InputStream ins = new ByteArrayInputStream(StringUtils.getBytesIso8859_1(ENCODED_B16));
+        try (final Base16InputStream b16Stream = new Base16InputStream(ins)) {
+            final byte[] actualBytes = new byte[6];
             assertEquals(-1, b16Stream.read());
         }
     }
@@ -368,12 +429,18 @@ public class Base16InputStreamTest {
      * @throws IOException for some failure scenarios.
      */
     @Test
-    public void testSkipPastEnd() throws IOException {
+    public void testSkipPastEnd_Skip() throws IOException {
         final InputStream ins = new ByteArrayInputStream(StringUtils.getBytesIso8859_1(ENCODED_B16));
         try (final Base16InputStream b16Stream = new Base16InputStream(ins)) {
             // due to CODEC-130, skip now skips correctly decoded characters rather than encoded
             assertEquals(6, b16Stream.skip(10));
-            // End of stream reached
+        }
+    }
+
+    @Test
+    public void testSkipPastEnd_Read() throws IOException {
+        final InputStream ins = new ByteArrayInputStream(StringUtils.getBytesIso8859_1(ENCODED_B16));
+        try (final Base16InputStream b16Stream = new Base16InputStream(ins)) {
             assertEquals(-1, b16Stream.read());
             assertEquals(-1, b16Stream.read());
         }
