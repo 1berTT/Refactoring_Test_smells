@@ -256,6 +256,50 @@ public class IterableUtilsTest {
         assertEquals(3, IterableUtils.frequency(list, null));
     }
 
+
+    @Test
+    public void frequencyOfNull2() {
+        final List<String> list = new ArrayList<>();
+        list.add("A");
+        assertEquals(0, IterableUtils.frequency(list, null));
+    }
+
+    @Test
+    public void frequencyOfNull3() {
+        final List<String> list = new ArrayList<>();
+        list.add(null);
+        assertEquals(1, IterableUtils.frequency(list, null));
+    }
+
+    @Test
+    public void frequencyOfNull4() {
+        final List<String> list = new ArrayList<>();
+        list.add("B");
+        assertEquals(1, IterableUtils.frequency(list, null));
+    }
+
+    @Test
+    public void frequencyOfNull5() {
+        final List<String> list = new ArrayList<>();
+        list.add(null);
+        assertEquals(2, IterableUtils.frequency(list, null));
+    }
+
+    @Test
+    public void frequencyOfNull6() {
+        final List<String> list = new ArrayList<>();
+        list.add("B");
+        assertEquals(2, IterableUtils.frequency(list, null));
+    }
+
+    @Test
+    public void frequencyOfNull7() {
+        final List<String> list = new ArrayList<>();
+        list.add(null);
+        assertEquals(3, IterableUtils.frequency(list, null));
+    }
+
+
     @Test
     public void find() {
         Predicate<Number> testPredicate = equalPredicate(4);
