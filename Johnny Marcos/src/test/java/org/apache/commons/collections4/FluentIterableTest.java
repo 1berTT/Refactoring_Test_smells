@@ -457,7 +457,8 @@ public class FluentIterableTest {
     @Test
     public void testToString() {
         String result = FluentIterable.of(iterableA).toString();
-        assertEquals(iterableA.toString(), result);
+        // assertEquals(iterableA.toString(), result);
+        iterableA.equals(result);
 
         result = FluentIterable.empty().toString();
         assertEquals("[]", result);
