@@ -80,6 +80,15 @@ public class TreeBagTest<T> extends AbstractSortedBagTest<T> {
         assertEquals("Should get elements in correct order", "B", bag.toArray()[1]);
         assertEquals("Should get elements in correct order", "C", bag.toArray()[2]);
         assertEquals("Should get first key", "A", ((SortedBag<T>) bag).first());
+    }
+
+
+    @Test
+    public void testOrderingLast() {
+        final Bag<T> bag = setupBag();
+        assertEquals("Should get elements in correct order", "A", bag.toArray()[0]);
+        assertEquals("Should get elements in correct order", "B", bag.toArray()[1]);
+        assertEquals("Should get elements in correct order", "C", bag.toArray()[2]);
         assertEquals("Should get last key", "D", ((SortedBag<T>) bag).last());
     }
 
